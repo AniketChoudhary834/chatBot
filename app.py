@@ -1,16 +1,7 @@
-data = {
-    'hi': "Hello!",
-    'hello': "Hi there!",
-    'how are you': "I'm just a bot, but I'm doing great! How about you?",
-    'what is your name': "My name is Jarvis.",
-    'who are you': "I’m your friendly assistant bot.",
-    'bye': "Goodbye! Have a nice day.",
-    'thank you': "You're welcome!",
-    'what can you do': "I can chat with you and answer basic questions."
-}
+import json
 
-# print([key for key in data.keys()])
-
+with open('data.json','r') as file:
+    data = json.load(file)
 
 
 while True:
@@ -27,6 +18,8 @@ while True:
         if user_input.lower() == 'y':
             user_response = input("Provide the best response for this question😏👍: ").strip()
             data[qs]=user_response
+            with open('data.json','w') as file:
+                json.dump(data,file)
         else:
             print("As Expected from You 😒")
 
