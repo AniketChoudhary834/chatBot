@@ -1,10 +1,7 @@
 import json
 
-# with open('data.json','w') as f:
-#     json.dump(data,f)
-
-file = open('data.json','r+')
-data = json.load(file)
+with open('data.json','r') as file:
+    data = json.load(file)
 
 
 while True:
@@ -21,9 +18,8 @@ while True:
         if user_input.lower() == 'y':
             user_response = input("Provide the best response for this question😏👍: ").strip()
             data[qs]=user_response
-            file.seek(0)
-            json.dump(data,file)
-            file.truncate()
+            with open('data.json','w') as file:
+                json.dump(data,file)
         else:
             print("As Expected from You 😒")
 
