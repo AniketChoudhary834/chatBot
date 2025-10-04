@@ -1,4 +1,5 @@
 import json
+from fuzzywuzzy import process
 
 with open('data.json','r') as file:
     data = json.load(file)
@@ -7,11 +8,13 @@ with open('data.json','r') as file:
 while True:
     qs = input("You : ")
     qs = qs.lower().strip()
-    if qs in ["quit","bye","q"]:
+    match_word = process.extractOne(qs,list(data.keys())) 
+    print(match_word)
+    if match_word[0] in ["quit","bye","q"]:
         print("Jarvis: Bye Bye")
         break
-    if(qs in data.keys()):
-        print("Jarvis:",data[qs])
+    if match_word[1] >= 90 :
+        print("Jarvis:",data[match_word[0]])
     else:
         print("Don't know about that🤔")
         user_input = input("Can You teach me About that😅 (Y/N) ? :").strip()
