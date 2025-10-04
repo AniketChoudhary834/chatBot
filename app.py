@@ -23,6 +23,5 @@ while True:
         else:
             print("As Expected from You 😒")
 
-file.close()
 
 
