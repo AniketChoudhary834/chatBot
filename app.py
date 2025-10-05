@@ -1,6 +1,14 @@
 import json
 from fuzzywuzzy import process
 
+# preprocess
+def preprocess(text):
+    """This preprocessing is done to remove the common stopwords which can cause the errors in word matching"""
+    stopWords = {'you','is','the','a','an','are','do','was','your','what'}
+    filtered = [w for w in text.split() if w not in stopWords]
+    return " ".join(filtered)
+
+# inital data load
 with open('data.json','r') as file:
     data = json.load(file)
 
@@ -8,12 +16,14 @@ with open('data.json','r') as file:
 while True:
     qs = input("You : ")
     qs = qs.lower().strip()
+    qs = preprocess(qs)
+    print(qs)
     match_word = process.extractOne(qs,list(data.keys())) 
     print(match_word)
-    if match_word[0] in ["quit","bye","q"]:
-        print("Jarvis: Bye Bye")
-        break
-    if match_word[1] >= 90 :
+    if match_word[1] >= 80 :
+        if match_word[0] in ["quit","bye"]:
+            print("Jarvis: Bye Bye")
+            break
         print("Jarvis:",data[match_word[0]])
     else:
         print("Don't know about that🤔")
@@ -25,6 +35,5 @@ while True:
                 json.dump(data,file)
         else:
             print("As Expected from You 😒")
-
 
 
