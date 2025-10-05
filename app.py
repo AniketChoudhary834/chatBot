@@ -3,6 +3,7 @@ import json
 with open('data.json','r') as file:
     data = json.load(file)
 
+print("Enter (quit , bye or q) to exit the Bot : ")
 
 while True:
     qs = input("You : ")
