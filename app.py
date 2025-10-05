@@ -1,4 +1,5 @@
 import json
+import datetime
 from fuzzywuzzy import process
 from fuzzywuzzy import fuzz
 
@@ -35,20 +36,25 @@ while True:
     if qs in ["quit","bye",'q']:
         print("Jarvis: Bye Bye")
         break
-    qs = preprocess(qs)
-    print(qs)
+    cleanedQs = preprocess(qs)
+    print(cleanedQs)
 
-    # scorer = fuzz.partial_ratio if len(qs.split())<5 else fuzz.token_set_ratio
-    # match_word = process.extractOne(qs,list(data.keys()),scorer=scorer) 
+    if len(cleanedQs.split())<4:
+        scorer = fuzz.partial_ratio
+        threshold = 80
+    else:
+        scorer = fuzz.token_set_ratio
+        threshold = 90
+    
+    match_word = process.extractOne(cleanedQs,list(data.keys()),scorer=scorer) 
 
-    match_word = process.extractOne(qs,list(data.keys())) 
-
-    print(match_word)
-    if match_word[1] >= 80 :
-        if match_word[0] in ["quit","bye",'q']:
-            print("Jarvis: Bye Bye")
-            break
-        print("Jarvis:",data[match_word[0]])
+    print(match_word,threshold)
+    if match_word :
+        match_text,match_score = match_word
+        if match_score > threshold:
+            print("Jarvis:",data[match_word[0]])
+        else:
+            trainData(qs)
     else:
         trainData(qs)
 
